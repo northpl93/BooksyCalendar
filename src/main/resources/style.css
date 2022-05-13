@@ -1,0 +1,22 @@
+.root {
+    -fx-min-width: 1500px;
+    -fx-min-height: 600px;
+}
+
+#pickers {
+    -fx-min-width: 1000px;
+    -fx-min-height: 50px;
+    -fx-min-height: 50px;
+}
+
+#calendar {
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+    -fx-min-width: 1500px;
+    -fx-min-height: 500px;
+}
+
+.day-label {
+    -fx-font-weight: BOLD;
+    -fx-font-size: 15;
+}

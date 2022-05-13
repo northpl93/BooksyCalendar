@@ -1,0 +1,5 @@
+.gradle
+.idea
+build
+out
+booksy_calendar_config.json
