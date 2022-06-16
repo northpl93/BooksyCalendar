@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar.dto;
+package pl.north93.booksy.calendar.service.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

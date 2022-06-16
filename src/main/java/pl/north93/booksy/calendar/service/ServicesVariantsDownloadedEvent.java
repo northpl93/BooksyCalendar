@@ -1,8 +1,8 @@
-package pl.north93.booksy.calendar.event;
+package pl.north93.booksy.calendar.service;
 
 import java.util.List;
 
-import pl.north93.booksy.calendar.dto.ServiceVariantDto;
+import pl.north93.booksy.calendar.service.dto.ServiceVariantDto;
 
 public record ServicesVariantsDownloadedEvent(List<ServiceVariantDto> serviceVariantDtos)
 {

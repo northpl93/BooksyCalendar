@@ -1,10 +1,8 @@
-package pl.north93.booksy.calendar.controller;
+package pl.north93.booksy.calendar.place;
 
 import com.google.common.eventbus.Subscribe;
 
-import pl.north93.booksy.calendar.PlacesService;
-import pl.north93.booksy.calendar.components.AddPlaceDialog;
-import pl.north93.booksy.calendar.event.RequestAddPlaceDialogEvent;
+import pl.north93.booksy.calendar.place.event.RequestAddPlaceDialogEvent;
 
 public class AddPlaceDialogController
 {

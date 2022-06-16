@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar;
+package pl.north93.booksy.calendar.place;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +12,8 @@ import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javafx.application.Platform;
-import pl.north93.booksy.calendar.dto.ApplicationConfig;
-import pl.north93.booksy.calendar.dto.PlaceDto;
-import pl.north93.booksy.calendar.event.PlacesUpdatedEvent;
+import pl.north93.booksy.calendar.app.ApplicationConfig;
+import pl.north93.booksy.calendar.place.event.PlacesUpdatedEvent;
 import pl.north93.booksy.calendar.webapi.dto.BooksyBusiness;
 import pl.north93.booksy.calendar.webapi.service.BooksyClient;
 
@@ -88,6 +86,6 @@ public class PlacesService
 
     private void postPlacesUpdatedEvent()
     {
-        Platform.runLater(() -> this.eventBus.post(new PlacesUpdatedEvent(this.placeDtos)));
+        this.eventBus.post(new PlacesUpdatedEvent(this.placeDtos));
     }
 }

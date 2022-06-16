@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar.components;
+package pl.north93.booksy.calendar.place;
 
 import javafx.scene.control.TextInputDialog;
 

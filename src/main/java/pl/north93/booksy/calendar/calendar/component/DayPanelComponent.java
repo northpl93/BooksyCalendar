@@ -1,11 +1,11 @@
-package pl.north93.booksy.calendar.components;
+package pl.north93.booksy.calendar.calendar.component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import pl.north93.booksy.calendar.dto.DayDto;
+import pl.north93.booksy.calendar.service.dto.DayDto;
 
 public class DayPanelComponent extends VBox
 {
@@ -13,17 +13,24 @@ public class DayPanelComponent extends VBox
 
     public DayPanelComponent(final DayDto dayDto)
     {
-        final Label dayLabel = new Label("" + dayDto.localDate().getDayOfMonth());
+        final Label dayLabel = new Label(this.buildDayString(dayDto));
         dayLabel.getStyleClass().add("day-label");
         this.getChildren().add(dayLabel);
 
         final Label timeLabel = new Label(this.buildTimesString(dayDto));
-        timeLabel.setWrapText(true);
+        timeLabel.getStyleClass().add("time-label");
         this.getChildren().add(timeLabel);
+    }
+
+    private String buildDayString(final DayDto dayDto)
+    {
+        return String.valueOf(dayDto.localDate().getDayOfMonth());
     }
 
     private String buildTimesString(final DayDto dayDto)
     {
-        return dayDto.times().stream().map(localDateTime -> localDateTime.format(TIME_FORMATTER)).collect(Collectors.joining(", "));
+        return dayDto.times().stream()
+                     .map(localDateTime -> localDateTime.format(TIME_FORMATTER))
+                     .collect(Collectors.joining(", "));
     }
 }

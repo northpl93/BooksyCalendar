@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar.components;
+package pl.north93.booksy.calendar.calendar.component;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -8,13 +8,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import pl.north93.booksy.calendar.controller.PickersController;
-import pl.north93.booksy.calendar.dto.EmployeeDto;
-import pl.north93.booksy.calendar.dto.PlaceDto;
-import pl.north93.booksy.calendar.dto.ServiceVariantDto;
-import pl.north93.booksy.calendar.event.EmployeesDownloadedEvent;
-import pl.north93.booksy.calendar.event.PlacesUpdatedEvent;
-import pl.north93.booksy.calendar.event.ServicesVariantsDownloadedEvent;
+import pl.north93.booksy.calendar.calendar.PickersController;
+import pl.north93.booksy.calendar.employee.dto.EmployeeDto;
+import pl.north93.booksy.calendar.employee.event.EmployeesDownloadedEvent;
+import pl.north93.booksy.calendar.place.PlaceDto;
+import pl.north93.booksy.calendar.place.event.PlacesUpdatedEvent;
+import pl.north93.booksy.calendar.service.ServicesVariantsDownloadedEvent;
+import pl.north93.booksy.calendar.service.dto.ServiceVariantDto;
 
 public class PickersComponent extends HBox
 {
@@ -29,27 +29,40 @@ public class PickersComponent extends HBox
         this.pickersController = pickersController;
         this.setId("pickers");
 
+        this.placesChoiceBox.setOnAction(this::handlePlaceSelect);
+        this.servicesChoiceBox.setOnAction(this::handleServiceSelect);
+        this.employeesChoiceBox.setOnAction(this::handleEmployeeSelect);
+
+        this.getChildren().add(this.buildPlaceSection());
+        this.getChildren().add(this.buildServiceSection());
+        this.getChildren().add(this.buildEmployeeSection());
+    }
+
+    private VBox buildPlaceSection()
+    {
         final Button addPlaceButton = new Button("+");
         addPlaceButton.setOnMouseClicked(event -> this.pickersController.requestAddPlaceDialog());
 
         final VBox placeVBox = new VBox(new Label("Select place: "), new HBox(this.placesChoiceBox, addPlaceButton));
-        placeVBox.setMinWidth(100);
+        placeVBox.setId("pickers-place");
 
-        this.placesChoiceBox.setOnAction(this::handlePlaceSelect);
-        this.getChildren().add(placeVBox);
+        return placeVBox;
+    }
 
-
+    private VBox buildServiceSection()
+    {
         final VBox serviceVbox = new VBox(new Label("Select service&variant: "), this.servicesChoiceBox);
-        serviceVbox.setMinWidth(300);
+        serviceVbox.setId("pickers-service");
 
-        this.servicesChoiceBox.setOnAction(this::handleServiceSelect);
-        this.getChildren().add(serviceVbox);
+        return serviceVbox;
+    }
 
+    private VBox buildEmployeeSection()
+    {
         final VBox employeeVbox = new VBox(new Label("Select employee: "), this.employeesChoiceBox);
-        employeeVbox.setMinWidth(300);
+        employeeVbox.setId("pickers-employee");
 
-        this.employeesChoiceBox.setOnAction(this::handleEmployeeSelect);
-        this.getChildren().add(employeeVbox);
+        return employeeVbox;
     }
 
     private void handlePlaceSelect(final ActionEvent event)

@@ -9,6 +9,18 @@
     -fx-min-height: 50px;
 }
 
+#pickers-place {
+    -fx-min-width: 100px;
+}
+
+#pickers-service {
+    -fx-min-width: 300px;
+}
+
+#pickers-employee {
+    -fx-min-width: 300px;
+}
+
 #calendar {
     -fx-hgap: 10px;
     -fx-vgap: 10px;
@@ -19,4 +31,8 @@
 .day-label {
     -fx-font-weight: BOLD;
     -fx-font-size: 15;
+}
+
+.time-label {
+    -fx-wrap-text: true
 }

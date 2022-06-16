@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar.components;
+package pl.north93.booksy.calendar.calendar.component;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -13,8 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import pl.north93.booksy.calendar.dto.DayDto;
-import pl.north93.booksy.calendar.event.EmployeeSelectedEvent;
+import pl.north93.booksy.calendar.employee.event.EmployeeSelectedEvent;
+import pl.north93.booksy.calendar.service.dto.DayDto;
 
 public class CalendarComponent extends GridPane
 {
@@ -71,7 +71,7 @@ public class CalendarComponent extends GridPane
 
     private String getDayName(final DayOfWeek dayOfWeek)
     {
-        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pl-PL"));
+        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("en-US"));
     }
 
     private void renderCalendarContent(final List<DayDto> dayDtos)

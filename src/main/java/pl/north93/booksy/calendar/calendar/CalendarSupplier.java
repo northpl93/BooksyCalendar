@@ -1,4 +1,4 @@
-package pl.north93.booksy.calendar.controller.action;
+package pl.north93.booksy.calendar.calendar;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -10,20 +10,20 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import pl.north93.booksy.calendar.dto.DayDto;
-import pl.north93.booksy.calendar.dto.EmployeeDto;
-import pl.north93.booksy.calendar.dto.ServiceVariantDto;
+import pl.north93.booksy.calendar.employee.dto.EmployeeDto;
+import pl.north93.booksy.calendar.service.dto.DayDto;
+import pl.north93.booksy.calendar.service.dto.ServiceVariantDto;
 import pl.north93.booksy.calendar.webapi.dto.BooksyEmployee;
 import pl.north93.booksy.calendar.webapi.dto.BooksyTimeSlotsDay;
 import pl.north93.booksy.calendar.webapi.dto.BooksyTimeSlotsResponse;
 import pl.north93.booksy.calendar.webapi.service.BooksyClient;
 
-public class DownloadCalendar implements Supplier<List<EmployeeDto>>
+public class CalendarSupplier implements Supplier<List<EmployeeDto>>
 {
     private final BooksyClient booksyClient;
     private final ServiceVariantDto serviceVariant;
 
-    public DownloadCalendar(final BooksyClient booksyClient, final ServiceVariantDto serviceVariant)
+    public CalendarSupplier(final BooksyClient booksyClient, final ServiceVariantDto serviceVariant)
     {
         this.booksyClient = booksyClient;
         this.serviceVariant = serviceVariant;
@@ -40,8 +40,13 @@ public class DownloadCalendar implements Supplier<List<EmployeeDto>>
         final List<BooksyEmployee> booksyEmployees = new ArrayList<>(timeSlots.employees());
         if (booksyEmployees.size() > 1)
         {
-            booksyEmployees.add(0, new BooksyEmployee("Wszyscy", timeSlots.allTimeSlots()));
+            booksyEmployees.add(0, new BooksyEmployee("Everyone", timeSlots.allTimeSlots()));
         }
+//        else
+//        {
+//            final BooksyEmployee booksyEmployee = booksyEmployees.get(0);
+//            booksyEmployees.set(0, new BooksyEmployee(booksyEmployee.name(), timeSlots.allTimeSlots()));
+//        }
 
         return booksyEmployees.stream().map(this::booksyEmployeeToEmployee).collect(Collectors.toList());
     }
