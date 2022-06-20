@@ -2,10 +2,11 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'pl.allegro.tech.build.axion-release' version '1.13.13'
 }
 
 group 'pl.north93'
-version '1.0-SNAPSHOT'
+version scmVersion.version
 
 repositories {
     mavenCentral()
