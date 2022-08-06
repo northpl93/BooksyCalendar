@@ -1,5 +1,7 @@
 package pl.north93.booksy.calendar.webapi.dto;
 
-public record BooksyTimeSlot(String from)
+import java.time.LocalTime;
+
+public record BooksyTimeSlot(LocalTime from, LocalTime to, Double interval)
 {
 }

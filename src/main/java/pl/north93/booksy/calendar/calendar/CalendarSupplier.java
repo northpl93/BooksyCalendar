@@ -14,6 +14,7 @@ import pl.north93.booksy.calendar.employee.dto.EmployeeDto;
 import pl.north93.booksy.calendar.service.dto.DayDto;
 import pl.north93.booksy.calendar.service.dto.ServiceVariantDto;
 import pl.north93.booksy.calendar.webapi.dto.BooksyEmployee;
+import pl.north93.booksy.calendar.webapi.dto.BooksyTimeSlot;
 import pl.north93.booksy.calendar.webapi.dto.BooksyTimeSlotsDay;
 import pl.north93.booksy.calendar.webapi.dto.BooksyTimeSlotsResponse;
 import pl.north93.booksy.calendar.webapi.service.BooksyClient;
@@ -76,14 +77,30 @@ public class CalendarSupplier implements Supplier<List<EmployeeDto>>
     private DayDto prepareDayData(final BooksyEmployee booksyEmployee, final LocalDate dayToPrepare)
     {
         final List<LocalTime> serviceTimes = this.findSlotsForDay(booksyEmployee, dayToPrepare)
-                                                 .map(this::convertTimeSlotsToLocalTime)
+                                                 .map(BooksyTimeSlotsDay::timeSlots)
+                                                 .map(this::convertBooksyTimeSlotsToLocalTimes)
                                                  .orElse(List.of());
         return new DayDto(dayToPrepare, serviceTimes);
     }
 
-    private List<LocalTime> convertTimeSlotsToLocalTime(final BooksyTimeSlotsDay booksyTimeSlotsDay)
+    private List<LocalTime> convertBooksyTimeSlotsToLocalTimes(final List<BooksyTimeSlot> booksyTimeSlots)
     {
-        return booksyTimeSlotsDay.timeSlots().stream().map(slotTime -> LocalTime.parse(slotTime.from())).collect(Collectors.toList());
+        return booksyTimeSlots.stream().map(this::convertBooksyTimeSlotToLocalTimes).flatMap(List::stream).collect(Collectors.toList());
+    }
+
+    private List<LocalTime> convertBooksyTimeSlotToLocalTimes(final BooksyTimeSlot booksyTimeSlot)
+    {
+        final List<LocalTime> result = new ArrayList<>();
+        result.add(booksyTimeSlot.from());
+
+        LocalTime currentSlot = booksyTimeSlot.from();
+        while (currentSlot.isBefore(booksyTimeSlot.to()))
+        {
+            currentSlot = currentSlot.plusMinutes(booksyTimeSlot.interval().longValue());
+            result.add(currentSlot);
+        }
+
+        return result;
     }
 
     public Optional<BooksyTimeSlotsDay> findSlotsForDay(final BooksyEmployee booksyEmployee, final LocalDate date)
